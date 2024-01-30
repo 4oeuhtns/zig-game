@@ -1,0 +1,16 @@
+.{
+    .name = "zig_game",
+    .version = "0.1.0",
+    .paths = .{
+        "src",
+        "build.zig",
+        "build.zig.zon",
+        "README.md",
+    },
+    .dependencies = .{
+        .mach_core = .{
+            .url = "https://pkg.machengine.org/mach-core/370bc1504cebaffcda5ed1ae9915fd2ac6778479.tar.gz",
+            .hash = "12205da1ecba58ba8c9ca65dbf75e32f42fde0490d34a98596ae72d4d3db81659dc5",
+        },
+    },
+}
