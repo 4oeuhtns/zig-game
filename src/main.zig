@@ -34,6 +34,8 @@ pub fn init(app: *App) !void {
     };
     const pipeline = core.device.createRenderPipeline(&pipeline_descriptor);
 
+    //fullscreen
+    core.setDisplayMode(.fullscreen,null);
     app.* = .{ .title_timer = try core.Timer.start(), .pipeline = pipeline };
 }
 
