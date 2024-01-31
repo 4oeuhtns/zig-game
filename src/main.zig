@@ -35,7 +35,7 @@ pub fn init(app: *App) !void {
     const pipeline = core.device.createRenderPipeline(&pipeline_descriptor);
 
     //fullscreen
-    core.setDisplayMode(.fullscreen,null);
+    core.setDisplayMode(.fullscreen, null);
     app.* = .{ .title_timer = try core.Timer.start(), .pipeline = pipeline };
 }
 
@@ -68,7 +68,7 @@ pub fn update(app: *App) !bool {
     });
     const pass = encoder.beginRenderPass(&render_pass_info);
     pass.setPipeline(app.pipeline);
-    pass.draw(3, 1, 0, 0);
+    // TODO figure out draw function
     pass.end();
     pass.release();
 
