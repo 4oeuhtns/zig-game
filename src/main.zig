@@ -1,6 +1,7 @@
 const std = @import("std");
 const core = @import("mach-core");
 const gpu = core.gpu;
+const mesh = @import("mesh.zig").Mesh;
 
 pub const App = @This();
 
@@ -12,6 +13,9 @@ pub fn init(app: *App) !void {
 
     const shader_module = core.device.createShaderModuleWGSL("shader.wgsl", @embedFile("shader.wgsl"));
     defer shader_module.release();
+    
+    // Mesh vertex buffer
+    try mesh.init();
 
     // Fragment state
     const blend = gpu.BlendState{};
@@ -30,6 +34,7 @@ pub fn init(app: *App) !void {
         .vertex = gpu.VertexState{
             .module = shader_module,
             .entry_point = "vertex_main",
+            .buffers = &[_]gpu.VertexBufferLayout{mesh.bufferLayout},
         },
     };
     const pipeline = core.device.createRenderPipeline(&pipeline_descriptor);
@@ -57,7 +62,7 @@ pub fn update(app: *App) !bool {
     const back_buffer_view = core.swap_chain.getCurrentTextureView().?;
     const color_attachment = gpu.RenderPassColorAttachment{
         .view = back_buffer_view,
-        .clear_value = std.mem.zeroes(gpu.Color),
+        .clear_value = gpu.Color{ .r = 1.0, .g = 0.0, .b = 0.0, .a = 1.0 },
         .load_op = .clear,
         .store_op = .store,
     };
@@ -69,6 +74,7 @@ pub fn update(app: *App) !bool {
     const pass = encoder.beginRenderPass(&render_pass_info);
     pass.setPipeline(app.pipeline);
     // TODO figure out draw function
+    pass.setVertexBuffer(0, mesh.buffer);
     pass.draw(3, 1, 0, 0);
     pass.end();
     pass.release();
