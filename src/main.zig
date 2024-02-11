@@ -69,6 +69,7 @@ pub fn update(app: *App) !bool {
     const pass = encoder.beginRenderPass(&render_pass_info);
     pass.setPipeline(app.pipeline);
     // TODO figure out draw function
+    pass.draw(3, 1, 0, 0);
     pass.end();
     pass.release();
 
